@@ -8,9 +8,13 @@ package GoL
 class Cell {
   
   private var alive = false
-  
+
+  /**
+    * Setter for att .alive
+    * @return (boolean) alive
+    */
   def isAlive = alive
-  
+
   def kill = alive = false
   def revive = alive = true
 }
