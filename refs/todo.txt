@@ -5,3 +5,7 @@ Submeter o projeto com um arquivo readme contendo:
         - editar o código original e não criar um novo
     -> outra implementação com interface gráfica/injeção de dependência/memento que pode emergir deve ser derivada de strategy ou template method
     -> usar injeção de dependência ou reflaction (spring framework) : não precisa editar código fonte
+    -> última implementação que terá a solução de todas os outros problemas
+    -> Padrão de projeto Observer (classe de estatística)
+    -> trabalho valorizado com a implementação do redo
+    -> Usar MVC
