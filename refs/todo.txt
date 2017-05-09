@@ -1,0 +1,6 @@
+Submeter o projeto com um arquivo readme contendo:
+    -> especificação do grupo
+    -> narrativa descrevendo o impacto dos diferentes designs, template method e strategy
+        - qual oferece maior simplicidade para alteração da regra de jogo em tempo de execução
+        - editar o código original e não criar um novo
+    -> outra implementação com interface gráfica/injeção de dependência/memento que pode emergir deve ser derivada de strategy ou template method
