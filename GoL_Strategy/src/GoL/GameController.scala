@@ -9,6 +9,7 @@ object GameController {
   
   def start {
     GameView.update
+    val GameEngine = new GameEngineOriginal
   }
   
   def halt() {
@@ -18,9 +19,9 @@ object GameController {
     System.exit(0)
   }
 
-  def makeCellAlive(i: Int, j: Int) {
+  def makeCellAlive(line: Int, column: Int) {
     try {
-			GameEngine.makeCellAlive(i, j)
+			GameEngine.makeCellAlive(line, column)
 			GameView.update
 		}
 		catch {
