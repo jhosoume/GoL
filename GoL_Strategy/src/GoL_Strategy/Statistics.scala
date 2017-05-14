@@ -1,4 +1,4 @@
-package GoL
+package GoL_Strategy
 
 /**
  * Classe usada para computar as estatisticas 

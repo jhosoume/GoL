@@ -1,4 +1,4 @@
-package GoL
+package GoL_Strategy
 
 import scala.collection.mutable.ListBuffer
 

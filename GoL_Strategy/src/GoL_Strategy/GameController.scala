@@ -1,4 +1,4 @@
-package GoL
+package GoL_Strategy
 
 /**
  * Relaciona o componente View com o componente Model. 
@@ -9,7 +9,6 @@ object GameController {
   
   def start {
     GameView.update
-    val GameEngine = new GameEngineOriginal
   }
   
   def halt() {
