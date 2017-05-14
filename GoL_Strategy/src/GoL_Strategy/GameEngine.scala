@@ -1,20 +1,20 @@
-package GoL
+package GoL_Strategy
 
 import scala.collection.mutable.ListBuffer
-import scala.util.control.TailCalls.TailRec
-import scala.annotation.tailrec
 
 /**
  * Representa a Game Engine do GoL 
  * 
  * @author Breno Xavier (baseado na implementacao Java de rbonifacio@unb.br
  */
-trait GameEngine {
+object GameEngine {
   
   val height = Main.height
   val width = Main.width
   
   val cells = Array.ofDim[Cell](height, width)
+
+  val rule = OriginalStrategy
   
   
   for(line <- (0 until height)) {
@@ -45,10 +45,10 @@ trait GameEngine {
     
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
-        if(shouldRevive(line, column)) {
+        if(rule.shouldRevive(line, column)) {
           mustRevive += cells(line)(column)
         }
-        else if((!shouldKeepAlive(line, column)) && cells(line)(column).isAlive) {
+        else if((!rule.shouldKeepAlive(line, column)) && cells(line)(column).isAlive) {
           mustKill += cells(line)(column)
         }
       }
@@ -71,7 +71,7 @@ trait GameEngine {
   /*
 	 * Verifica se uma posicao (a, b) referencia uma celula valida no tabuleiro.
 	 */
-  protected def validPosition(line: Int, column: Int) =
+  private def validPosition(line: Int, column: Int) =
     line >= 0 && line < height && column >= 0 && column < width;
   
   
@@ -128,18 +128,11 @@ trait GameEngine {
     }
   }
   
-  
-  /* verifica se uma celula deve ser mantida viva */
-  def shouldKeepAlive(line: Int, column: Int): Boolean
-
-  /* verifica se uma celula deve (re)nascer */
-  def shouldRevive(line: Int, column: Int): Boolean
-  
   /*
 	 * Computa o numero de celulas vizinhas vivas, dada uma posicao no ambiente
 	 * de referencia identificada pelos argumentos (i,j).
 	 */
-  protected def numberOfNeighborhoodAliveCells(line: Int, column: Int): Int = {
+  def numberOfNeighborhoodAliveCells(line: Int, column: Int): Int = {
     var alive = 0
     for(adj_line <- (line - 1 to line + 1)) {
       for(adj_column <- (column - 1 to column + 1)) {

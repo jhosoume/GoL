@@ -1,4 +1,4 @@
-package GoL
+package GoL_Strategy
 
 /**
  * Rerepsentacao de uma celula do GoL 
