@@ -2,7 +2,7 @@
 > Assigment for a Computer Science Class
 
 This repo contains:
-1. Two diffente implementations for the Game of Life: Template Method and Strategy
+1. Two different implementations for the Game of Life: Template Method and Strategy
 2. A third implementation using dependency injection and memento
 
 ## Table of Contents
