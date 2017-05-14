@@ -1,86 +1,30 @@
 package GoL
 
 import scala.collection.mutable.ListBuffer
-import scala.util.control.TailCalls.TailRec
-import scala.annotation.tailrec
 
 /**
  * Representa a Game Engine do GoL 
- * 
+ *
  * @author Breno Xavier (baseado na implementacao Java de rbonifacio@unb.br
  */
-trait GameEngine {
+trait GameEngineOriginal {
   
-  val height = Main.height
-  val width = Main.width
-  
-  val cells = Array.ofDim[Cell](height, width)
-  
-  
-  for(line <- (0 until height)) {
-    for(column <- (0 until width)) {
-      cells(line)(column) = new Cell
-    }
-  }
 
-
-  /**
-	 * Calcula uma nova geracao do ambiente. Essa implementacao utiliza o
-	 * algoritmo do Conway, ou seja:
-	 * 
-	 * a) uma celula morta com exatamente tres celulas vizinhas vivas se torna
-	 * uma celula viva.
-	 * 
-	 * b) uma celula viva com duas ou tres celulas vizinhas vivas permanece
-	 * viva.
-	 * 
-	 * c) em todos os outros casos a celula morre ou continua morta.
-	 */
-  
-  def nextGeneration {
-    
-    val mustRevive = new ListBuffer[Cell]
-    val mustKill = new ListBuffer[Cell]
-
-    
-    for(line <- (0 until height)) {
-      for(column <- (0 until width)) {
-        if(shouldRevive(line, column)) {
-          mustRevive += cells(line)(column)
-        }
-        else if((!shouldKeepAlive(line, column)) && cells(line)(column).isAlive) {
-          mustKill += cells(line)(column)
-        }
-      }
-    }
-    
-    
-    for(cell <- mustRevive) {
-      cell.revive
-      Statistics.recordRevive
-    }
-    
-    for(cell <- mustKill) {
-      cell.kill
-      Statistics.recordKill
-    }
-    
-    
   }
 
   /*
 	 * Verifica se uma posicao (a, b) referencia uma celula valida no tabuleiro.
 	 */
-  protected def validPosition(line: Int, column: Int) =
+  private def validPosition(line: Int, column: Int) =
     line >= 0 && line < height && column >= 0 && column < width;
-  
-  
+
+
   /**
 	 * Torna a celula de posicao (i, j) viva
-	 * 
+	 *
 	 * @param line posicao vertical da celula
 	 * @param column posicao horizontal da celula
-	 * 
+	 *
 	 * @throws InvalidParameterException caso a posicao (i, j) nao seja valida.
 	 */
   @throws(classOf[IllegalArgumentException])
@@ -92,15 +36,15 @@ trait GameEngine {
       throw new IllegalArgumentException
     }
   }
-  
+
   /**
 	 * Verifica se uma celula na posicao (line, column) estah viva.
-	 * 
+	 *
 	 * @param line Posicao vertical da celula
 	 * @param column Posicao horizontal da celula
 	 * @return Verdadeiro caso a celula de posicao (line,column) esteja viva.
-	 * 
-	 * @throws InvalidParameterException caso a posicao (i,j) nao seja valida. 
+	 *
+	 * @throws InvalidParameterException caso a posicao (i,j) nao seja valida.
 	 */
   @throws(classOf[IllegalArgumentException])
   def isCellAlive(line: Int, column: Int): Boolean = {
@@ -110,13 +54,13 @@ trait GameEngine {
       throw new IllegalArgumentException
     }
   }
-  
-  
+
+
   /**
-	 * Retorna o numero de celulas vivas no ambiente. 
-	 * Esse metodo eh particularmente util para o calculo de 
+	 * Retorna o numero de celulas vivas no ambiente.
+	 * Esse metodo eh particularmente util para o calculo de
 	 * estatisticas e para melhorar a testabilidade.
-	 * 
+	 *
 	 * @return  numero de celulas vivas.
 	 */
   def numberOfAliveCells {
@@ -127,19 +71,26 @@ trait GameEngine {
       }
     }
   }
-  
-  
+
+
   /* verifica se uma celula deve ser mantida viva */
-  def shouldKeepAlive(line: Int, column: Int): Boolean
+  private def shouldKeepAlive(line: Int, column: Int): Boolean = {
+    (cells(line)(column).isAlive) &&
+      (numberOfNeighborhoodAliveCells(line, column) == 2 || numberOfNeighborhoodAliveCells(line, column) == 3)
+  }
 
   /* verifica se uma celula deve (re)nascer */
-  def shouldRevive(line: Int, column: Int): Boolean
-  
+  private def shouldRevive(line: Int, column: Int): Boolean = {
+    (!cells(line)(column).isAlive) &&
+      (numberOfNeighborhoodAliveCells(line, column) == 3)
+  }
+
+
   /*
 	 * Computa o numero de celulas vizinhas vivas, dada uma posicao no ambiente
 	 * de referencia identificada pelos argumentos (i,j).
 	 */
-  protected def numberOfNeighborhoodAliveCells(line: Int, column: Int): Int = {
+  private def numberOfNeighborhoodAliveCells(line: Int, column: Int): Int = {
     var alive = 0
     for(adj_line <- (line - 1 to line + 1)) {
       for(adj_column <- (column - 1 to column + 1)) {
