@@ -84,6 +84,7 @@ object GameView {
   private def halt = GameController.halt
 	
   private def validPosition(line: Int, column: Int): Boolean = {
+    /* Prints should not be here */
 		println(line);
 		println(column);
 		line >= 0 && line < GameEngine.height && column >= 0 && column < GameEngine.width

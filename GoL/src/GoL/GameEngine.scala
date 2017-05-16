@@ -12,15 +12,9 @@ object GameEngine {
   val height = Main.height;
   val width = Main.width;
   
-  val cells = Array.ofDim[Cell](height, width);
+  val cells = new Cells(height, width);
 
   private var rule : DerivationStrategy = OriginalStrategy;
-
-  for(line <- (0 until height)) {
-    for(column <- (0 until width)) {
-      cells(line)(column) = new Cell;
-    }
-  }
 
   /**
     * This function will receive the specified rule and pass it to the class
@@ -48,10 +42,10 @@ object GameEngine {
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
         if(rule.shouldRevive(line, column)) {
-          mustRevive += cells(line)(column)
+          mustRevive += cells(line, column)
         }
-        else if((!rule.shouldKeepAlive(line, column)) && cells(line)(column).isAlive) {
-          mustKill += cells(line)(column)
+        else if((!rule.shouldKeepAlive(line, column)) && cells(line, column).isAlive) {
+          mustKill += cells(line, column)
         }
       }
     }
@@ -69,8 +63,9 @@ object GameEngine {
   /*
 	 * Verifica se uma posicao (a, b) referencia uma celula valida no tabuleiro.
 	 */
-  private def validPosition(line: Int, column: Int) =
-    line >= 0 && line < height && column >= 0 && column < width;
+  private def validPosition(line: Int, column: Int) = {
+    true
+  }
   
   
   /**
@@ -84,7 +79,7 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def makeCellAlive(line: Int, column: Int) = {
     if(validPosition(line, column)){
-      cells(line)(column).revive
+      cells(line, column).revive
       Statistics.recordRevive
     } else {
       throw new IllegalArgumentException
@@ -103,7 +98,7 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def isCellAlive(line: Int, column: Int): Boolean = {
     if(validPosition(line, column)) {
-      cells(line)(column).isAlive
+      cells(line, column).isAlive
     } else {
       throw new IllegalArgumentException
     }
@@ -136,13 +131,13 @@ object GameEngine {
     for(adj_line <- (line - 1 to line + 1)) {
       for(adj_column <- (column - 1 to column + 1)) {
         if (validPosition(adj_line, adj_column)  &&
-              (!(adj_line==line && adj_column == column)) &&
-               cells(adj_line)(adj_column).isAlive) {
-					alive += 1
-				}
+          (!(adj_line==line && adj_column == column)) &&
+          cells(adj_line, adj_column).isAlive) {
+          alive += 1
+        }
       }
     }
+    println("Line", line, column, "has neigh", alive)
     alive
   }
-
 }
