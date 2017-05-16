@@ -137,7 +137,6 @@ object GameEngine {
         }
       }
     }
-    println("Line", line, column, "has neigh", alive)
     alive
   }
 }
