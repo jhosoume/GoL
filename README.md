@@ -1,4 +1,25 @@
 # GoL
+
+> Avisos!
+
+Pessoal, para implementar coisas novas, usem a pasta GoL/GoL
+- Original em GoL/GoLBase
+
+Ju: Trabalhando com Memento (16/05)
+
+Questão 1:
+    -> Template Ok! (Pasta GoL/GoL_Template)
+    -> Strategy Ok! (Pasta GoL/GoL_Strategy)
+Questão 2:
+    -> Interface Em progresso
+    -> Injeção de Dependência
+Questão 3:
+    -> Computar novas gerações indefinidamente Em progesso
+    -> Tabuleiro Infinito Ok! (Pasta GoL/GoL)
+Questão 4:
+    -> Memento Em progresso 
+
+
 > Assigment for a Computer Science Class
 
 This repo contains:
