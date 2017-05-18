@@ -17,11 +17,13 @@ object GameView {
 	private final val MAKE_CELL_ALIVE = 1
 	private final val NEXT_GENERATION = 2
 	private final val HALT = 3
+	private final val UNDO = 4
+	private final val REDO = 5
 
   
   /**
 	 * Atualiza o componente view (representado pela classe GameBoard),
-	 * possivelmente como uma resposta a uma atualiza��o do jogo.
+	 * possivelmente como uma resposta a uma atualização do jogo.
 	 */
 	def update {
 		printFirstRow
@@ -32,7 +34,7 @@ object GameView {
 		    print(if (GameEngine.isCellAlive(line, column))  ALIVE_CELL else DEAD_CELL);
 		  }
 			/**
-				* TODO check better place to put the following print. It prints the line of the game
+				* TODO check better place to put the following print. It prints the line of the board
 				*/
 		  println("   " + line)
 		  printLine
@@ -50,7 +52,9 @@ object GameView {
 			println("[1] Make a cell alive");
 			println("[2] Next generation");
 			println("[3] Halt");
-		
+			println("[4] Undo");
+			println("[5] Redo");
+
 			print("\n \n Option: ");
 			
 			option = parseOption(readLine)
@@ -60,6 +64,8 @@ object GameView {
       case MAKE_CELL_ALIVE => makeCellAlive
       case NEXT_GENERATION => nextGeneration
       case HALT => halt
+			case UNDO => undo
+			case REDO => redo
     }
 	}
   
@@ -71,7 +77,7 @@ object GameView {
 	  do {
       print("\n Inform the row number (0 - " + (GameEngine.height - 1) + "): ")
       line = readInt
-      
+
       print("\n Inform the column number (0 - " + (GameEngine.width - 1) + "): ")
       column= readInt
       
@@ -82,7 +88,9 @@ object GameView {
 
   private def nextGeneration = GameController.nextGeneration
   private def halt = GameController.halt
-	
+	private def undo = GameController.goBack
+	private def redo = GameController.goFoward
+
   private def validPosition(line: Int, column: Int): Boolean = {
     /* Prints should not be here */
 		println(line);
@@ -94,6 +102,8 @@ object GameView {
     case "1" => MAKE_CELL_ALIVE
     case "2" => NEXT_GENERATION
     case "3" => HALT
+		case "4" => UNDO
+		case "5" => REDO
     case _ => INVALID_OPTION
   }
 	

@@ -8,6 +8,7 @@ package GoL
 object GameController {
   
   def start {
+    CellsCaretaker.persist
     GameView.update
   }
   
@@ -21,6 +22,7 @@ object GameController {
   def makeCellAlive(line: Int, column: Int) {
     try {
 			GameEngine.makeCellAlive(line, column)
+      CellsCaretaker.persist
 			GameView.update
 		}
 		catch {
@@ -32,6 +34,7 @@ object GameController {
   
   def nextGeneration {
     GameEngine.nextGeneration
+    CellsCaretaker.persist
     GameView.update
   }
 
@@ -41,5 +44,15 @@ object GameController {
       GameView.update
     }
   }
-  
+
+  def goBack {
+    CellsCaretaker.undo
+    GameView.update
+  }
+
+  def goFoward {
+    CellsCaretaker.redo
+    GameView.update
+  }
+
 }

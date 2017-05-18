@@ -12,8 +12,6 @@ object GameEngine {
   val height = Main.height;
   val width = Main.width;
   
-  val cells = new Cells(height, width);
-
   private var rule : DerivationStrategy = OriginalStrategy;
 
   /**
@@ -42,10 +40,10 @@ object GameEngine {
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
         if(rule.shouldRevive(line, column)) {
-          mustRevive += cells(line, column)
+          mustRevive += Cells(line, column)
         }
-        else if((!rule.shouldKeepAlive(line, column)) && cells(line, column).isAlive) {
-          mustKill += cells(line, column)
+        else if((!rule.shouldKeepAlive(line, column)) && Cells(line, column).isAlive) {
+          mustKill += Cells(line, column)
         }
       }
     }
@@ -79,7 +77,7 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def makeCellAlive(line: Int, column: Int) = {
     if(validPosition(line, column)){
-      cells(line, column).revive
+      Cells(line, column).revive
       Statistics.recordRevive
     } else {
       throw new IllegalArgumentException
@@ -98,7 +96,7 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def isCellAlive(line: Int, column: Int): Boolean = {
     if(validPosition(line, column)) {
-      cells(line, column).isAlive
+      Cells(line, column).isAlive
     } else {
       throw new IllegalArgumentException
     }
@@ -132,7 +130,7 @@ object GameEngine {
       for(adj_column <- (column - 1 to column + 1)) {
         if (validPosition(adj_line, adj_column)  &&
           (!(adj_line==line && adj_column == column)) &&
-          cells(adj_line, adj_column).isAlive) {
+          Cells(adj_line, adj_column).isAlive) {
           alive += 1
         }
       }
