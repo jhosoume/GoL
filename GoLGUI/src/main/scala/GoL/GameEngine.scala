@@ -1,4 +1,10 @@
+package GoL
+
+import java.security.InvalidParameterException
+import javax.inject.Inject
+
 import scala.collection.mutable.ListBuffer
+import scala.reflect.runtime.universe
 
 /**
  * Representa a Game Engine do GoL 
@@ -7,18 +13,11 @@ import scala.collection.mutable.ListBuffer
  */
 object GameEngine {
   
-  val height = Main.height;
-  val width = Main.width;
-  
-  private var rule : DerivationStrategy = OriginalStrategy;
+  val height = Main.height
+  val width = Main.width
 
-  /**
-    * This function will receive the specified rule and pass it to the class
-    * @param strategy
-    */
-  def setRule(strategy: DerivationStrategy = OriginalStrategy) {
-    rule = strategy;
-  }
+  //TODO CONTROLLER
+  var rule : DerivationStrategy = OriginalStrategy
 
   /**
 	 * Calcula uma nova geracao do ambiente. Essa implementacao utiliza o
@@ -32,38 +31,40 @@ object GameEngine {
 	 * 
 	 * c) em todos os outros casos a celula morre ou continua morta.
 	 */
+
+  
   def nextGeneration {
+    
     val mustRevive = new ListBuffer[Cell]
     val mustKill = new ListBuffer[Cell]
+
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
         if(rule.shouldRevive(line, column)) {
-          mustRevive += Cells(line, column)
+          mustRevive += CellsRepository(line,column)
         }
-        else if((!rule.shouldKeepAlive(line, column)) && Cells(line, column).isAlive) {
-          mustKill += Cells(line, column)
+        else if((!rule.shouldKeepAlive(line, column)) && CellsRepository(line,column).isAlive) {
+          mustKill += CellsRepository(line,column)
         }
       }
     }
+
     for(cell <- mustRevive) {
       cell.revive
       Statistics.recordRevive
     }
+    
     for(cell <- mustKill) {
       cell.kill
       Statistics.recordKill
     }
   }
 
-
   /*
 	 * Verifica se uma posicao (a, b) referencia uma celula valida no tabuleiro.
 	 */
-  private def validPosition(line: Int, column: Int) = {
-    true
-  }
-  
-  
+  private def validPosition(line: Int, column: Int) = true
+
   /**
 	 * Torna a celula de posicao (i, j) viva
 	 * 
@@ -75,13 +76,24 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def makeCellAlive(line: Int, column: Int) = {
     if(validPosition(line, column)){
-      Cells(line, column).revive
+      CellsRepository(line,column).revive
       Statistics.recordRevive
     } else {
       throw new IllegalArgumentException
     }
   }
-  
+
+  @throws(classOf[IllegalArgumentException])
+  def makeCellDead(line: Int, column: Int) = {
+    if(validPosition(line, column)){
+      CellsRepository(line,column).kill
+      // TODO should record kill?
+      Statistics.recordKill
+    } else {
+      throw new IllegalArgumentException
+    }
+  }
+
   /**
 	 * Verifica se uma celula na posicao (line, column) estah viva.
 	 * 
@@ -94,7 +106,7 @@ object GameEngine {
   @throws(classOf[IllegalArgumentException])
   def isCellAlive(line: Int, column: Int): Boolean = {
     if(validPosition(line, column)) {
-      Cells(line, column).isAlive
+      CellsRepository(line,column).isAlive
     } else {
       throw new IllegalArgumentException
     }
@@ -108,14 +120,13 @@ object GameEngine {
 	 * 
 	 * @return  numero de celulas vivas.
 	 */
-  def numberOfAliveCells: Int = {
-    var aliveCells = 0;
+  def numberOfAliveCells {
+    var aliveCells = 0
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
-        if(isCellAlive(line, column)) aliveCells += 1;
+        if(isCellAlive(line, column)) aliveCells += 1
       }
     }
-    aliveCells;
   }
   
   /*
@@ -127,12 +138,13 @@ object GameEngine {
     for(adj_line <- (line - 1 to line + 1)) {
       for(adj_column <- (column - 1 to column + 1)) {
         if (validPosition(adj_line, adj_column)  &&
-          (!(adj_line==line && adj_column == column)) &&
-          Cells(adj_line, adj_column).isAlive) {
-          alive += 1
-        }
+              (!(adj_line==line && adj_column == column)) &&
+               CellsRepository(adj_line,adj_column).isAlive) {
+					alive += 1
+				}
       }
     }
     alive
   }
+
 }

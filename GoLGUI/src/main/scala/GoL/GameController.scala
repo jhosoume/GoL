@@ -1,13 +1,16 @@
+package GoL
+
 /**
  * Relaciona o componente View com o componente Model. 
  * 
  * @author Breno Xavier (baseado na implementacao Java de rbonifacio@unb.br
  */
 object GameController {
-  
+
   def start {
+    clear
     CellsCaretaker.persist
-    GameView.update
+    View.updateChart
   }
   
   def halt() {
@@ -20,8 +23,7 @@ object GameController {
   def makeCellAlive(line: Int, column: Int) {
     try {
 			GameEngine.makeCellAlive(line, column)
-      CellsCaretaker.persist
-			GameView.update
+			View.updateChart
 		}
 		catch {
 		  case ex: IllegalArgumentException => {
@@ -29,28 +31,43 @@ object GameController {
 		  }
 		}
   }
-  
-  def nextGeneration {
-    GameEngine.nextGeneration
-    CellsCaretaker.persist
-    GameView.update
-  }
 
-  def gensUntilTotalDeath {
-    while (GameEngine.numberOfAliveCells > 0) {
-      GameEngine.nextGeneration
-      GameView.update
+  def makeCellDead(line: Int, column: Int) {
+    try {
+      GameEngine.makeCellDead(line, column)
+      View.updateChart
+    }
+    catch {
+      case ex: IllegalArgumentException => {
+        println(ex.getMessage)
+      }
     }
   }
 
-  def goBack {
+  def checkCellAlive(line: Int, column: Int): Boolean = {
+    GameEngine.isCellAlive(line, column)
+  }
+
+  def nextGeneration {
+    GameEngine.nextGeneration
+    CellsCaretaker.persist
+    View.updateChart
+  }
+
+  def goBack: Unit = {
     CellsCaretaker.undo
-    GameView.update
+    View.updateChart
   }
 
-  def goFoward {
+  def goFoward: Unit = {
     CellsCaretaker.redo
-    GameView.update
+    View.updateChart
   }
 
+  def clear: Unit = {
+    CellsCaretaker.clear
+    CellsRepository.clear
+    View.updateChart
+  }
+  
 }

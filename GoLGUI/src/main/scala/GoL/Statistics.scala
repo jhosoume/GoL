@@ -1,3 +1,5 @@
+package GoL
+
 /**
  * Classe usada para computar as estatisticas 
  * do GoL.

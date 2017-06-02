@@ -1,0 +1,3 @@
+CustomStrategy
+HighLife
+Immortal

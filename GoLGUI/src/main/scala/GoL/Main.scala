@@ -1,4 +1,4 @@
-
+package GoL
 
 /**
  * Programa principal do GoL.

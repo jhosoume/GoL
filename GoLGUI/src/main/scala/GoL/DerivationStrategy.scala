@@ -1,3 +1,5 @@
+package GoL
+
 /**
   */
 trait DerivationStrategy {
