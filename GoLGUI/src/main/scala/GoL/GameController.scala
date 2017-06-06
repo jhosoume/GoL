@@ -1,9 +1,9 @@
 package GoL
 
 /**
- * Relaciona o componente View com o componente Model. 
- * 
- * @author Breno Xavier (baseado na implementacao Java de rbonifacio@unb.br
+ * Keeps the relation between View and Model
+  * @author Jonatas, Juliana and Luisa
+  *         Adapted from code from Breno Xavier
  */
 object GameController {
 

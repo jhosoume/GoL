@@ -12,11 +12,20 @@ class Cell {
     * Getter for att .alive
     * @return (Boolean) alive
     */
-  def isAlive = alive
+  def isAlive: Boolean = alive
 
   /**
     * Setters for Cell attribute alive
     */
-  def kill = alive = false
-  def revive = alive = true
+  def kill: Unit = { alive = false }
+  def revive: Unit = { alive = true }
+
+  /**
+    * Modifies the state of the cell to
+    * the opposite one
+    */
+  def changeState: Unit = {
+    if (this.isAlive) { this.kill }
+    else { this.revive }
+  }
 }

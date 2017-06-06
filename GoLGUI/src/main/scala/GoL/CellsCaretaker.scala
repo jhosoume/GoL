@@ -26,7 +26,7 @@ object CellsCaretaker extends Caretaker[CellsMemento] {
       current -= 1
       CellsRepository.restore(mementosRepository(current))
     } else {
-      CellsRepository.restore(mementosRepository(0))
+      CellsRepository.restore(mementosRepository.head)
     }
   }
 
@@ -42,10 +42,20 @@ object CellsCaretaker extends Caretaker[CellsMemento] {
     }
   }
 
+  /**
+    * Checks if the argument position is valid accordingly to the number
+    * of mementos stored in mementosRepository.
+    * Does not implements negative positions (undo e redo purpouses)
+    * @param position: Integer
+    * @return Boolean
+    */
   private def validMemento(position: Int): Boolean = {
     position >= 0 && position < mementosRepository.size
   }
 
+  /**
+    * Removes all mementos stored in the repository
+    */
   def clear: Unit = {
     current = -1
     mementosRepository.clear

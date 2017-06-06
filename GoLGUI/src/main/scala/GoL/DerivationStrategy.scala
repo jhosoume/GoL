@@ -1,12 +1,13 @@
 package GoL
 
 /**
+  * Contract to implement new rules for the game of life
   */
 trait DerivationStrategy {
-  /* verifica se uma celula deve ser mantida viva */
+  /* instructs if cell should still be alive in the next generation */
   def shouldKeepAlive(line: Int, column: Int): Boolean
 
-  /* verifica se uma celula deve (re)nascer */
+  /* instructs if cell should be revived in the next generation */
   def shouldRevive(line: Int, column: Int): Boolean
 
 }

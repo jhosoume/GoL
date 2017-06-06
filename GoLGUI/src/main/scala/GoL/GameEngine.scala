@@ -1,10 +1,8 @@
 package GoL
 
 import java.security.InvalidParameterException
-import javax.inject.Inject
 
 import scala.collection.mutable.ListBuffer
-import scala.reflect.runtime.universe
 
 /**
  * Representa a Game Engine do GoL 
