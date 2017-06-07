@@ -127,7 +127,7 @@ object View extends JFXApp {
       pulsarB.layoutX = 10
       pulsarB.layoutY = 170
       pulsarB.onAction = (event: ActionEvent) => {
-        GameController.clear
+        GameController.start
         seed1
       }
 
@@ -135,7 +135,7 @@ object View extends JFXApp {
       gliderB.layoutX = 10
       gliderB.layoutY = 200
       gliderB.onAction = (event: ActionEvent) => {
-        GameController.clear
+        GameController.start
         seed2
       }
 

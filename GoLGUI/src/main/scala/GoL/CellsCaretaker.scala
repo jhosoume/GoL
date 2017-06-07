@@ -2,6 +2,8 @@ package GoL
 
 import scala.collection.mutable.ListBuffer
 
+// TODO could be a implicit class that extends Caretaker
+
 /** Deals with Mementos*/
 object CellsCaretaker extends Caretaker[CellsMemento] {
   /** cellsMementos keeps all mementos created. Tests shows that a modern notebook can store

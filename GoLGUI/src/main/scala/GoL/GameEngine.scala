@@ -14,7 +14,9 @@ object GameEngine {
   val height = Main.height
   val width = Main.width
 
-  //TODO CONTROLLER
+  /**
+    * Rule indicates the conditions for survival of each cell
+    */
   var rule : DerivationStrategy = OriginalStrategy
 
   /**
@@ -29,13 +31,14 @@ object GameEngine {
 	 * 
 	 * c) em todos os outros casos a celula morre ou continua morta.
 	 */
-
-  
+  /**
+    * Function that calculates a new state of the board, following defined rules
+    */
   def nextGeneration {
-    
+    // Briefly stores the next state of each cell
     val mustRevive = new ListBuffer[Cell]
     val mustKill = new ListBuffer[Cell]
-
+    // Check what the state of each cell will be in the next gen
     for(line <- (0 until height)) {
       for(column <- (0 until width)) {
         if(rule.shouldRevive(line, column)) {
@@ -46,23 +49,29 @@ object GameEngine {
         }
       }
     }
-
+    // Update alive cells
     for(cell <- mustRevive) {
       cell.revive
       Statistics.recordRevive
     }
-    
+    // Update dead cells
     for(cell <- mustKill) {
       cell.kill
       Statistics.recordKill
     }
   }
 
-  /*
-	 * Verifica se uma posicao (a, b) referencia uma celula valida no tabuleiro.
-	 */
+  /**
+    * DEPRECATED: Verifies if the index given points to a valid cell in the board
+    * Is no longer used since every indication of position is valid in the infinite board
+    * @param line: Int
+    * @param column: Int
+    * @return Boolean
+    */
   private def validPosition(line: Int, column: Int) = true
 
+  //TODO  Since in the infinite board there is no need to verify if the
+  //TODO position, then the following should not throw an error
   /**
 	 * Torna a celula de posicao (i, j) viva
 	 * 
@@ -73,7 +82,7 @@ object GameEngine {
 	 */
   @throws(classOf[IllegalArgumentException])
   def makeCellAlive(line: Int, column: Int) = {
-    if(validPosition(line, column)){
+    if (validPosition(line, column)) {
       CellsRepository(line,column).revive
       Statistics.recordRevive
     } else {
@@ -83,9 +92,8 @@ object GameEngine {
 
   @throws(classOf[IllegalArgumentException])
   def makeCellDead(line: Int, column: Int) = {
-    if(validPosition(line, column)){
+    if (validPosition(line, column)) {
       CellsRepository(line,column).kill
-      // TODO should record kill?
       Statistics.recordKill
     } else {
       throw new IllegalArgumentException
