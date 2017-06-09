@@ -12,7 +12,7 @@ import scalafx.scene.control._
 class PopupSearch {
 
   val dialog = new TextInputDialog(){
-    initOwner(View.stage)
+    initOwner(GameView.stage)
     title = "Open rule"
     headerText = "Enter file path."
     contentText = "Path: "

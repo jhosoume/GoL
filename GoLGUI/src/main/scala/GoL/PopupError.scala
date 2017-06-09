@@ -10,7 +10,7 @@ import scalafx.scene.control.Alert.AlertType
 class PopupError (path: String) {
 
   new Alert(AlertType.Error) {
-    initOwner(View.stage)
+    initOwner(GameView.stage)
     title = "Error"
     headerText = "No such file or directory found."
     contentText = "Exception in: " + path

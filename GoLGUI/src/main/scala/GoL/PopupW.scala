@@ -13,7 +13,7 @@ class PopupW {
   case class Result(letslive: String, kills: String, revives: String)
 
   val dialog = new Dialog[Result] {
-    initOwner(View.stage)
+    initOwner(GameView.stage)
     title = "Your rule"
     headerText = "Number of Neighbours to:"
     contentText = "Game of Life Rule"

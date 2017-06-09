@@ -15,7 +15,7 @@ object GameController {
   def start {
     clear
     CellsCaretaker.persist
-    View.updateChart
+    GameView.updateChart
   }
 
   /**
@@ -38,7 +38,7 @@ object GameController {
   def makeCellAlive(line: Int, column: Int) {
     try {
 			GameEngine.makeCellAlive(line, column)
-			View.updateChart
+			GameView.updateChart
 		}
 		catch {
 		  case ex: IllegalArgumentException => {
@@ -57,7 +57,7 @@ object GameController {
   def makeCellDead(line: Int, column: Int) {
     try {
       GameEngine.makeCellDead(line, column)
-      View.updateChart
+      GameView.updateChart
     }
     catch {
       case ex: IllegalArgumentException => {
@@ -83,7 +83,7 @@ object GameController {
   def nextGeneration {
     GameEngine.nextGeneration
     CellsCaretaker.persist
-    View.updateChart
+    GameView.updateChart
   }
 
   /**
@@ -91,7 +91,7 @@ object GameController {
     */
   def goBack: Unit = {
     CellsCaretaker.undo
-    View.updateChart
+    GameView.updateChart
   }
 
   /**
@@ -99,7 +99,7 @@ object GameController {
     */
   def goFoward: Unit = {
     CellsCaretaker.redo
-    View.updateChart
+    GameView.updateChart
   }
 
   /**
@@ -108,7 +108,7 @@ object GameController {
   private def clear: Unit = {
     CellsCaretaker.clear
     CellsRepository.clear
-    View.updateChart
+    GameView.updateChart
   }
 
   /**
