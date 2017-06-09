@@ -78,7 +78,10 @@ object View extends JFXApp {
       val originIt = new MenuItem("Original")
       val immortIt = new MenuItem("Immortal")    /** TODO Implement **/
       val highIt = new MenuItem("High Life")    /** TODO Implement **/
-      ruleMenu.items = List(originIt, highIt, immortIt)
+      val importIt = new MenuItem("Import Rule from file")
+      val defRule = new MenuItem("Set your own rule!")
+
+      ruleMenu.items = List(originIt, highIt, immortIt, importIt, defRule)
 
       menuBar.menus = List(fileMenu, ruleMenu)
       menuBar.prefWidth = 650
@@ -88,6 +91,9 @@ object View extends JFXApp {
       highIt.onAction = (event: ActionEvent) => {GameEngine.rule = Rules.HighLife}
 
       immortIt.onAction = (event: ActionEvent) => {GameEngine.rule = Rules.Immortal}
+      importIt.onAction = (event: ActionEvent) => {val ppSc = new PopupSearch}
+
+      defRule.onAction = (event: ActionEvent) => {val ppUp = new PopupW}
 
       newIt.onAction = (event: ActionEvent) => {
         startChart
@@ -175,7 +181,6 @@ object View extends JFXApp {
       redoB.onAction = (event: ActionEvent) => GameController.goFoward
 
       content = List(menuBar, nextB, playB, stopB, undoB, redoB, pulsarB, gliderB, blueB, redB, greenB)
-//      content = List(menuBar, playB, haltB, undoB, redoB, manualB, autoB)
 
       def seed1 {
         var pSet = Array.ofDim[Int](View.height, View.width)
